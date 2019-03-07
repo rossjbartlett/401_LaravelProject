@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Hi - Group 11 Project
+                    Group 11 Project
                 </div>
 
                 <div class="links">
