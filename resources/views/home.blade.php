@@ -23,5 +23,19 @@
             </div>
         </div>
     </div>
+
+
+    <div class="content">
+                <div class="title m-b-md">
+                    Group 11 Library
+                </div>
+
+                <div class="links">
+                    <a href="/books">Books</a>
+                    <a href="/authors">Authors</a>
+                    <a href="/mybooks">My Books</a>
+                </div>
+            </div>
+
 </div>
 @endsection

@@ -54,6 +54,34 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="birthday" class="col-md-4 col-form-label text-md-right">{{ __('birthday') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="birthday" type="text" class="form-control{{ $errors->has('birthday') ? ' is-invalid' : '' }}" name="birthday" value="{{ old('birthday') }}">
+
+                                @if ($errors->has('birthday'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('birthday') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="education_field" class="col-md-4 col-form-label text-md-right">{{ __('education_field') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="education_field" type="text" class="form-control{{ $errors->has('education_field') ? ' is-invalid' : '' }}" name="education_field" value="{{ old('education_field') }}">
+
+                                @if ($errors->has('education_field'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('education_field') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">

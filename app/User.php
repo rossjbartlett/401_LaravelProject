@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'role', 'birthday', 'eduction_field', 'password'
+        'email', 'role', 'birthday', 'education_field', 'password'
     ];
 
     /**
@@ -39,8 +39,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    //when you call courses() from a User object, it returns all the Course objects of the User
-    public function courses(){
-        return $this->hasMany(Course::class);
+    //when you call books() from a User object, it returns all the Book of the User (subscribed to)
+    public function books(){
+        return $this->hasMany(Book::class);
+    }
+
+     //get the comments that the user has made
+     public function comments(){
+        return $this->hasMany(Comment::class);
     }
 }

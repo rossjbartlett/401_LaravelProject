@@ -14,4 +14,6 @@ class Comment extends Model
     protected $fillable = [
         'text'
     ]; // TODO book_id and user_id should not be fillable right?
+
+    
 }
