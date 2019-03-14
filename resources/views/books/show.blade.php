@@ -7,7 +7,7 @@
     <article>
         <h2> Publisher: {{$book->publisher}}, {{$book->publication_year}}</h2>
         <h4> ISBN: {{$book->ISBN}}</h4>
-        <img src="{{$book->image}}" alt="book img" width="50%" height="30%">
+        <img src="{{$book->image}}" onerror="imgError(this);" alt="book img" width="50%" height="30%">
     </article>
 
 
