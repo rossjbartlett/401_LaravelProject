@@ -2,20 +2,22 @@
 
 @section('content')
 
-    <h1>Books</h1>
-    <hr>
-    @foreach($books as $book)
+<h1>Books</h1>
+<hr>
+@foreach($books as $book)
 
-        <book>
-            <h2>
-                <a href="{{action('BookController@show',[$book->id])}}">
-                    {{$book->name}}
-                </a>
-            </h2>
+<book>
+        <img src="{{$book->image}}" alt="book img" width="10%" height="2%" style="float:left;margin-right:5%;">
 
-            <div class='pub'>{{$book->publisher}}, {{$book->publication_year}}</div>
-        </book>
-        <hr>
-    @endforeach
+        <h2>
+            <a href="{{action('BookController@show',[$book->id])}}">
+                {{$book->name}}
+            </a>
+        </h2>
 
-@stop
+        <div class='pub'>{{$book->publisher}}, {{$book->publication_year}}</div>
+</book>
+<hr>
+@endforeach
+
+@stop 
