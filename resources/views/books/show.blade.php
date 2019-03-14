@@ -5,11 +5,9 @@
     <h1> {{$book->name}}</h1>
     <hr>
     <article>
-        {{$book->publisher}}
-        {{$book->publication_year}}
-        {{$book->ISBN}}
-        {{$book->image}} 
-        <!-- TODO make the image show an acutal img if its a link-->
+        <h2> Publisher: {{$book->publisher}}, {{$book->publication_year}}</h2>
+        <h4> ISBN: {{$book->ISBN}}</h4>
+        <img src="{{$book->image}}" alt="book img" width="50%" height="30%">
     </article>
 
 

@@ -25,7 +25,7 @@ class BookRequest extends FormRequest
     {
         //Id, Name, ISBN, Publication Year, Publisher, Subscription Status, Timestamp, Image (from amazon)
         return [
-            'title' => 'required|min:3',
+            'name' => 'required|min:3',
             'ISBN' => 'required', //TODO unique
             'publication_year' => 'required',
             'publisher' => 'required',
