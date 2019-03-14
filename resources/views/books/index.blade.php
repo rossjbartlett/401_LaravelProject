@@ -19,7 +19,8 @@
 
 <book>
     <!-- this default img is not resizing --> <!-- onerror="this.onerror=null;this.src='MissingBook.png';" -->
-        <img src="{{$book->image}}"  alt="book img"  width="10%" height="2%" style="float:left;margin-right:5%;">
+        <img src="{{$book->image}}"  alt="book img"  width="10%" height="1%" style="float:left;margin-right:5px;">
+        <!-- <img src="{{$book->image}}" onerror="this.onerror=null;this.src='MissingBook.png';" alt="book img"  width="200px" height="120px" style="float:left;margin-right:5%;"> -->
 
         <h2>
             <a href="{{action('BookController@show',[$book->id])}}">
