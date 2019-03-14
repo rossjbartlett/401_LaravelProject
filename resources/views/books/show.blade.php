@@ -11,4 +11,9 @@
     </article>
 
 
+    {!! Form::model($book, ['method'=>'DELETE', 'action'=>['BookController@destroy',$book->id]]) !!}
+        <button type="submit" style="float:right;">Delete Book</button>
+    {!! Form::close() !!}
+
+
 @stop

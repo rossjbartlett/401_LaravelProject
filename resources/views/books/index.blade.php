@@ -4,10 +4,22 @@
 
 <h1>Books</h1>
 <hr>
+
+<!-- show messages like: Book sucessfully deleted -->
+@if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
+@endif
+
+
+
+
 @foreach($books as $book)
 
 <book>
-        <img src="{{$book->image}}" alt="book img" width="10%" height="2%" style="float:left;margin-right:5%;">
+    <!-- this default img is not resizing --> <!-- onerror="this.onerror=null;this.src='MissingBook.png';" -->
+        <img src="{{$book->image}}"  alt="book img"  width="10%" height="2%" style="float:left;margin-right:5%;">
 
         <h2>
             <a href="{{action('BookController@show',[$book->id])}}">
@@ -16,6 +28,7 @@
         </h2>
 
         <div class='pub'>{{$book->publisher}}, {{$book->publication_year}}</div>
+
 </book>
 <hr>
 @endforeach
