@@ -14,7 +14,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        // $books = Auth::user()->books; // gets all books from this user
+        $books = Book::all();     //get all books
+        return view('books.index')->with('books',$books);
     }
 
     /**
@@ -24,62 +26,72 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('books.create');
+
     }
 
-    /**
+     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Http\Requests\BookRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        //
+        //makes a new Book row, and puts the user's ID in it
+        $book  = new Book($request->all());
+        $book->save();
+        // Auth::user()->books()->save($book);
+        // TODO: we do want to check the level of Authentication, but we dont want to put the users ID on it 
+
+        // Book::create($request->all()); //adds row to DB //gets everything on POST (from the books/create page)
+        return redirect('books');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Book $book)
+
+    //go to an book from the URL=: /book/{id}
+    public function show($id)
     {
-        //
+        if(!ctype_digit($id)){ // string consists of all digs, thus is an int
+            abort(404);
+        }
+        $book = Book::findOrFail($id);
+        // the 'findOrFail' basically does this: if(is_null($book)) abort(404);
+        return view('books.show', compact('book')); // compact() replaces with()
     }
+
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Book  $book
+     * @param string id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Book $book)
+    public function edit($id)
     {
-        //
+        $book = Book::findOrFail($id);
+        return view('books.edit', compact('book')); // compact() replaces with()
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Book  $book
-     * @return \Illuminate\Http\Response
+     * Update the specified resource in storage
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, $id)
     {
-        //
+        $book = Book::findOrFail($id);
+        $book->update($request->all());
+        return redirect('books');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Book  $book
+     * @param  \App\book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
-        //
+        Book::findOrFail($id)->delete();
+        return redirect('books')->with('message', 'Book Deleted.');;
     }
 }

@@ -15,12 +15,16 @@ class Book extends Model
         'name', 'ISBN', 'publication_year', 'publisher', 'subscription_status', 'image'
     ];
 
-    //when you call users() from a Book object, it returns all the Users objects subscribed to the User
-    //this assumes a Book can have max 1 user subscribed to it at a time
-    //if want Book can be subscribed by many Users at a time, change 'belongsTo' to 'hasMany'
-    public function books(){
-        return $this->belongsTo(User::class);
+    //when you call users() from a Book object, it returns all the Users objects that ever subscribed to the User
+    public function users(){
+        return $this->hasMany(User::class);
     }
+
+    //a Book can have max 1 user subscribed to it at a time
+    public function currentUser(){
+        //TODO
+    }
+
 
     //get the authors of the book
     public function authors(){
