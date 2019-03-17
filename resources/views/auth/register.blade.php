@@ -57,7 +57,7 @@
                             <label for="birthday" class="col-md-4 col-form-label text-md-right">{{ __('Birthday') }}</label>
 
                             <div class="col-md-6">
-                                <input id="birthday" type="text" class="form-control{{ $errors->has('birthday') ? ' is-invalid' : '' }}" name="birthday" value="{{ old('birthday') }}">
+                                <input id="birthday" type="text" class="form-control{{ $errors->has('birthday') ? ' is-invalid' : '' }}" placeholder="DD/MM/YYYY" name="birthday" value="{{ old('birthday') }}">
 
                                 @if ($errors->has('birthday'))
                                     <span class="invalid-feedback" role="alert">

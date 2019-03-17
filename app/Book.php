@@ -29,7 +29,7 @@ class Book extends Model
 
     //get the authors of the book
     public function authors(){
-        return $this->hasMany(Author::class);
+        return $this->belongsToMany(Author::class, 'book_authors')->withTimestamps();
     }
 
     //get the comments of the book

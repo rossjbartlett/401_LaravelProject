@@ -30,6 +30,10 @@ Route::get('/', function () {
 				$b_data->save ();
 				$a_data->name = $data[2];
 				$a_data->save ();
+				//should be fine since csv does not contain multiple authors
+				$book = Book::where('ISBN', $data[0])->first();
+				$book->authors()->attach($a_data->id);
+
 			}
 			fclose ( $handle );
 		}
