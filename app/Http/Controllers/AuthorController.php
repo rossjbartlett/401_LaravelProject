@@ -14,7 +14,8 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
+        $authors = Author::all();     //get all authors
+        return view('authors.index')->with('authors',$authors);
     }
 
     /**
@@ -78,8 +79,9 @@ class AuthorController extends Controller
      * @param  \App\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Author $author)
+    public function destroy($id)
     {
-        //
+        Author::findOrFail($id)->delete();
+        return redirect('authors')->with('message', 'Author Deleted.');;
     }
 }

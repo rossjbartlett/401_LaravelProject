@@ -46,9 +46,14 @@ Route::get('/books', function () {
     return view('books');
 });
 
+Route::get('/authors', function() {
+	return view('authors');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('books', 'BookController');
+Route::resource('authors', 'AuthorController');
 
