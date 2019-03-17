@@ -15,7 +15,7 @@ class Book extends Model
         'name', 'ISBN', 'publication_year', 'publisher', 'subscription_status', 'image'
     ];
 
-    //when you call users() from a Book object, it returns all the Users objects that ever subscribed to the User
+    //when you call users() from a Book object, should it return all the Users that EVER subscribed to the User
     public function users(){
         return $this->hasMany(User::class);
     }

@@ -44,6 +44,8 @@ class User extends Authenticatable
         return $this->hasMany(Book::class);
     }
 
+    //TODO: may want another function to return all the books that the user has EVER subscribed to?
+
      //get the comments that the user has made
      public function comments(){
         return $this->hasMany(Comment::class);
