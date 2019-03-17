@@ -21,6 +21,7 @@
 
         <h4>{{$author->name}}</h4>
 
+        <!-- only if we are an admin this shows -->
         {{ Form::model($author, ['method' => 'DELETE', 'action' => ['AuthorController@destroy', $author->id]]) }}
 
         <div class="form-group" style="padding-top: 5px"> 

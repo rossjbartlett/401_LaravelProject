@@ -7,6 +7,7 @@
     <article>
         <h2> Publisher: {{$book->publisher}}, {{$book->publication_year}}</h2>
 
+        <!-- only if we are an admin this shows -->
         {!! Form::model($book, ['method'=>'DELETE', 'action'=>['BookController@destroy',$book->id]]) !!}
         <button class="btn btn-outline-danger btn-sm" type="submit" style="float:right;">Delete</button>
         {!! Form::close() !!}

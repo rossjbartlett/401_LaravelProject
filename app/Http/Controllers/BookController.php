@@ -92,7 +92,11 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        Book::findOrFail($id)->delete();
+        $book =Book::findOrFail($id);
+        if($book->authors->count() == 1) {
+            $book->authors()->delete();
+        }
+        $book->delete();
         return redirect('books')->with('message', 'Book Deleted.');;
     }
 }
