@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class RedirectIfNotSubscriber
+class RedirectIfNotUser
 {
     /**
      * Handle an incoming request.
@@ -21,12 +21,7 @@ class RedirectIfNotSubscriber
         {
             return redirect('login');
         }
-        if(! $request->user()->isASubscriber()) // check if user is an admin
-        {
-            return back();
-        }
 
-
-        return $next($request); // proceed to the next  middleware check
+        return $next($request); // proceed to the next  middleware check    
     }
 }

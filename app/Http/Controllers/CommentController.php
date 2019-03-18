@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
+use App\Http\Controllers\Auth;
+use Carbon;
 
 class CommentController extends Controller
 {
@@ -33,9 +36,19 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        //
+        $comment = new Comment();
+        $comment->book_id = $request->book_id;
+        $comment->user_id = \Auth::user()->id;
+        $comment->text = $request->text;
+        $comment->created_at = Carbon\Carbon::now();
+
+        //TODO Update???
+        $comment->updated_at = Carbon\Carbon::now();
+        $comment->save();
+
+        return redirect('books/'.$request->book_id);
     }
 
     /**

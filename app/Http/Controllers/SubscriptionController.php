@@ -93,8 +93,21 @@ class SubscriptionController extends Controller
      * @param  \App\Subscription  $subscription
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subscription $subscription)
+    public function destroy($id)
     {
-        //
+
     }
+
+    public function deleteWithBookID($book_id)
+    {
+      $subscription = Subscription::findOrFail()->where([
+          ['book_id', '=', $book_id],
+          ['user_id', '=', $request->user()->id],
+        ]);
+
+      $subscription->delete();
+      return redirect()->route('books.show',$request->input('book_id'));
+
+    }
+
 }
