@@ -6,13 +6,12 @@
 
 <div class="form-group">
     {!! Form::label('ISBN', 'ISBN:') !!}
-    {!! Form::text('ISBN', null, ['class'=>'form-control', 'readonly']) !!}
+    @if($editFlag=='true') 
+        {!! Form::text('ISBN', null, ['class'=>'form-control', 'readonly']) !!}
+    @else
+        {!! Form::text('ISBN', null, ['class'=>'form-control']) !!}
+    @endif
 </div>
-
-
-<!-- 
-    * Ensure Author field works in books.create and books.edit
--->
 
 <div class="form-group">
     {!! Form::label('author', 'Author(s):') !!}
