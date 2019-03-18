@@ -14,8 +14,9 @@
 
         <h2> Author(s): 
         @foreach($book->authors as $author)
-            {{$author->name}}, </h2>
+            {{$author->name}},
         @endforeach
+        </h2>
          
         <h4> ISBN: {{$book->ISBN}}</h4>
         

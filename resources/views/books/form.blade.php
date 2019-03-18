@@ -3,6 +3,7 @@
     {!! Form::label('name', 'Name:') !!}
     {!! Form::text('name', null, ['class'=>'form-control']) !!}
 </div>
+
 <div class="form-group">
     {!! Form::label('ISBN', 'ISBN:') !!}
     {!! Form::text('ISBN', null, ['class'=>'form-control']) !!}
@@ -15,6 +16,11 @@
     * Will need to add a row, for each Author of the Book, to the Book_Authors table
     * Ensure it works in books.create and books.edit
 -->
+
+<div class="form-group">
+    {!! Form::label('author', 'Author(s):') !!}
+    {!! Form::text('author', null, ['class'=>'form-control', 'placeholder' => 'spearate authors by a comma with no spaces (Mark Fitzjerald,John Green)']) !!}
+</div>
 
 
 <div class="form-group">
