@@ -42,6 +42,7 @@
         <hr>
 
 <!-- TODO: make it so it only subscribed users can comment??? -->
+
       @if(Auth::check())
 
           @if(Auth::user()->isSubscriber() && Auth::user()->isSubscribed($book->id))

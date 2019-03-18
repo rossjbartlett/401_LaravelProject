@@ -10,6 +10,13 @@ use Carbon;
 
 class CommentController extends Controller
 {
+
+    public function __construct()
+    {
+      $this->middleware('user');
+    }
+
+
     /**
      * Display a listing of the resource.
      *

@@ -21,9 +21,9 @@ class RedirectIfNotAdmin
         {
             return redirect('login');
         }
-        if(! $request->user()->isAdmin()) // check if user is an admin
+        if(!$request->user()->isAdmin()) // check if user is an admin
         {
-            return back();
+            return redirect('home');
         }
 
 
