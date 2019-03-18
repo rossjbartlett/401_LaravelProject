@@ -39,7 +39,7 @@ Route::get('/', function () {
 			fclose ( $handle );
 		}
 	}
-	
+
     return view('welcome');
 });
 
@@ -57,4 +57,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('books', 'BookController');
 Route::resource('authors', 'AuthorController');
-
+Route::resource('subcriptions', 'SubcriptionController');
