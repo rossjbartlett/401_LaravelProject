@@ -28,6 +28,7 @@
           @endif
 
         @endif
+        
         <h2> Author(s):
             {{implode(', ', $book->authors()->pluck('name')->toArray())}}
         </h2>
