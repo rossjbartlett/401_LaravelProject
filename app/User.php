@@ -45,7 +45,7 @@ class User extends Authenticatable
     }
 
     //a user can have many subscription
-    public function subcriptions(){
+    public function subscriptions(){
         return $this->hasMany(Subscription::class);
     }
 
@@ -68,7 +68,7 @@ class User extends Authenticatable
     // is user has subscribed to book
     public function isSubscribed($book_id)
     {
-        $Subscribed = $this->Subscriptions()-where('book_id', '=', $book_id);
-        return isset($Subscribed);
+        $Subscribed = $this->subscriptions()->where('book_id', '=', $book_id)->get();
+        return !($Subscribed->isEmpty());
     }
   }
