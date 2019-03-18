@@ -6,7 +6,7 @@
 
 <div class="form-group">
     {!! Form::label('ISBN', 'ISBN:') !!}
-    {!! Form::text('ISBN', null, ['class'=>'form-control']) !!}
+    {!! Form::text('ISBN', null, ['class'=>'form-control', 'readonly']) !!}
 </div>
 
 
@@ -19,7 +19,11 @@
 
 <div class="form-group">
     {!! Form::label('author', 'Author(s):') !!}
-    {!! Form::text('author', null, ['class'=>'form-control', 'placeholder' => 'spearate authors by a comma with no spaces (Mark Fitzjerald,John Green)']) !!}
+    @if($editFlag=='true') 
+        {!! Form::text('author', $authString, ['class'=>'form-control', 'placeholder' => 'spearate authors by a comma(Mark Fitzjerald, John Green)']) !!}
+    @else
+        {!! Form::text('author', null, ['class'=>'form-control', 'placeholder' => 'spearate authors by a comma with no spaces (Mark Fitzjerald,John Green)']) !!}
+    @endif  
 </div>
 
 

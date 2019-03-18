@@ -13,9 +13,7 @@
         {!! Form::close() !!}
 
         <h2> Author(s): 
-        @foreach($book->authors as $author)
-            {{$author->name}},
-        @endforeach
+            {{implode(', ', $book->authors()->pluck('name')->toArray())}}
         </h2>
          
         <h4> ISBN: {{$book->ISBN}}</h4>
