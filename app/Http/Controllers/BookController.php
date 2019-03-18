@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Author;
-
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
@@ -41,19 +40,53 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        //makes a new Book row, and puts the user's ID in it
-        $book  = new Book($request->all());
+        //and puts the user's ID in it ?
+
+        //new book row
+        $book  = new Book();
+        $book->name = $request->input('name');
+        $book->ISBN = $request->input('ISBN');
+        $book->publication_year = $request->input('publication_year');
+        $book->publisher = $request->input('publisher');
+        $book->image = $request->input('image');
         $book->save();
 
-        $author = Author::where('name', $request->author)->first();
-        if($author==null){
-            $author = new Author();
-            $author->name = trim($request->author);
-            $author->save ();
+        //new author row(s)
+        $author = new Author();
+        $authNames = $request->input('author');
+        $bookTemp = Book::where('ISBN', $request->input('ISBN'))->first();
+        //if multiple authors
+        if (strpos($authNames, ',') !== false) {
+            $auths = explode(",", $authNames);
+            foreach($auths as $name) {
+                //if author isn't already in table
+                if (Author::where('name', '=', $name)->exists() != 1) {
+                    $author = new Author();
+                    $author->name = $name;
+                    $author->save();
+                    $bookTemp->authors()->attach($author->id);
+                }
+                else { //attach for many to many with exisitng
+                     $authTemp = Author::where('name', $name)->first();
+                     $bookTemp->authors()->attach($authTemp->id);
+                }
+            }
         }
+        else {
+            if (Author::where('name', '=', $authNames)->exists() != 1) {
+                $author = new Author();
+                $author->name = $authNames;
+                $author->save();
+                 $bookTemp->authors()->attach($author->id);
+            }   
+            else {
+                 $authTemp = Author::where('name', $name)->first();
+                 $bookTemp->authors()->attach($authTemp->id);
+            } 
+        }    
 
-        //TODO handle having multiple Authors
-        $book->authors()->attach($author->id);
+         
+       // $bookTemp->authors()->attach($author->id);
 
         // Auth::user()->books()->save($book);
 
@@ -107,7 +140,7 @@ class BookController extends Controller
     public function destroy($id)
     {
         $book =Book::findOrFail($id);
-        if($book->authors->count() == 1) {
+        if($book->authors->count() == 1) { //if author only had one book, delete author too
             $book->authors()->delete();
         }
         $book->delete();

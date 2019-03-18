@@ -20,6 +20,7 @@
             @endif
             {{$author->name}}</h2>
         @endforeach
+        </h2>
          
         <h4> ISBN: {{$book->ISBN}}</h4>
         
