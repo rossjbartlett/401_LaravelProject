@@ -34,14 +34,16 @@
 
         <img src="{{$book->image}}" alt="book img"  width="20%">
         <hr>
-        <h4>Add comments:</h4>
+
 <!-- TODO: make it so it only subscribed users can comment??? -->
+    @if(Auth::user()->isSubscriber() && Auth::user()->isSubscribed($book->id))
+      <h4>Add comments:</h4>
       {!! Form::open(['action'=>'CommentController@store']) !!}
       <p>{!! Form::textarea('text', null, ['class'=>'form-control']) !!}</p>
       {{ Form::hidden('book_id', $book->id) }}
       <p>{{ Form::submit('Post Comment') }}</p>
       {!! Form::close() !!}
-
+    @endif
 
 
       <h4 style="display:inline"> Posted Comment(s): </br> </h4>
