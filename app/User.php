@@ -64,7 +64,6 @@ class User extends Authenticatable
       return $this->role=="Subscriber";
     }
 
-
     // is user has subscribed to book
     public function isSubscribed($book_id)
     {
