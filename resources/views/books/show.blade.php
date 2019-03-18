@@ -36,7 +36,7 @@
         <hr>
 
 <!-- TODO: make it so it only subscribed users can comment??? -->
-    @if(Auth::user()->isSubscriber() && Auth::user()->isSubscribed($book->id))
+    @if(Auth::user() != null && Auth::user()->isSubscriber() && Auth::user()->isSubscribed($book->id))
       <h4>Add comments:</h4>
       {!! Form::open(['action'=>'CommentController@store']) !!}
       <p>{!! Form::textarea('text', null, ['class'=>'form-control']) !!}</p>
