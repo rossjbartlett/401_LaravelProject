@@ -15,5 +15,13 @@ class Comment extends Model
         'text'
     ]; // TODO book_id and user_id should not be fillable right?
 
-    
+    //get the book the comment comments on
+    public function book(){
+        return $this->belongsTo(Book::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 }

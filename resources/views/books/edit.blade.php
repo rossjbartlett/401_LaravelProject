@@ -6,13 +6,13 @@
     <h1>Edit Book: {!! $book->title !!}</h1>
     <hr>
 
-     
-    {!! Form::model($book, ['method'=>'PATCH', 'action'=>['ArticleController@update',$book->id]]) !!}
+
+    {!! Form::model($book, ['method'=>'PATCH', 'action'=>['BookController@update',$book->id]]) !!}
     @include ('books.form', ['submitButtonText'=>'Update Book'])
     {!! Form::close() !!}
 
     @include ('errors.list');
 
 
-    
+
 @stop
