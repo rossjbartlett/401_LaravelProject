@@ -8,25 +8,34 @@
         <h2> Publisher: {{$book->publisher}}, {{$book->publication_year}}</h2>
 
         <!-- TOOD: how to make it so it only shows this if we are ADMIN -->
-        @if(isset(Auth::user())
+
+        <div style="padding-right: 80px;float: right;">
+
+        @if(Auth::user() !== null)
 
           @if(Auth::user()->isAdmin())
             {!! Form::model($book, ['method'=>'DELETE', 'action'=>['BookController@destroy',$book->id]]) !!}
-            <button class="btn btn-outline-danger btn-sm" type="submit" style="float:right;">Delete</button>
+            <button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>
             {!! Form::close() !!}
+          @endif  
             
-          @elseif(Auth::user()->isSubscriber())
-            // if subscribed
-
-            // if not subscribed
+          @if(Auth::user()->isSubscriber())
+             <!-- if subscribed -->
             {!! Form::open(['method' => 'POST', 'url' => 'subscriptions']) !!}
-            <input id='book_id' name = 'book_id' type = 'hidden' value = {{$book->id}}>
-            {!! Form::submit('Subscribe', ['class' => 'btn btn-primary form-control']) !!}
+            <button class="btn btn-primary btn-sm" type="submit"> Subscribe </button> 
             {!! Form::close() !!}
 
           @endif
+
+        @else 
+            <!-- no button   -->  
+
+        @endif  
+
+         </div> 
           
-        @endif
+
+
         <h2> Author(s):
             {{implode(', ', $book->authors()->pluck('name')->toArray())}}
         </h2>

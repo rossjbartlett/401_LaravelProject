@@ -85,8 +85,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="/about">About Us</a>
-                    <a href="/contact">Contact</a>
+                    <a href="/books">Books</a>
                 </div>
             </div>
         </div>
