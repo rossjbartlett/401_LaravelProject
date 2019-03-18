@@ -60,7 +60,7 @@ class BookController extends Controller
 
         foreach($auths as $name) {
             //if author isn't already in table
-            if (Author::where('name', '=', $name)->exists() != 1) {
+            if (Author::where('name', 'ILIKE', $name)->exists() != 1) {
                 $author = new Author();
                 $author->name = $name;
                 $author->save();
