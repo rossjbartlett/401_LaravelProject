@@ -7,19 +7,23 @@
     <article>
         <h2> Publisher: {{$book->publisher}}, {{$book->publication_year}}</h2>
 
-        <!-- only if we are an admin this shows -->
+        <!-- TOOD: how to make it so it only shows this if we are ADMIN -->
         {!! Form::model($book, ['method'=>'DELETE', 'action'=>['BookController@destroy',$book->id]]) !!}
         <button class="btn btn-outline-danger btn-sm" type="submit" style="float:right;">Delete</button>
         {!! Form::close() !!}
 
-        <h2> Author(s): 
+    <h2> Author(s):
+        @php ($i = 0)
         @foreach($book->authors as $author)
-            {{$author->name}}, </h2>
+            @if($i>0) 
+                , 
+            @endif
+            {{$author->name}}</h2>
         @endforeach
          
         <h4> ISBN: {{$book->ISBN}}</h4>
         
-        <img src="{{$book->image}}" onerror="imgError(this);" alt="book img" width="50%" height="30%">
+        <img src="{{$book->image}}" alt="book img"  width="20%">
     </article>
 
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Author;
+
 use Illuminate\Http\Request;
 use App\Http\Requests\BookRequest;
 
@@ -42,7 +44,19 @@ class BookController extends Controller
         //makes a new Book row, and puts the user's ID in it
         $book  = new Book($request->all());
         $book->save();
+
+        $author = Author::where('name', $request->author)->first();
+        if($author==null){
+            $author = new Author();
+            $author->name = trim($request->author);
+            $author->save ();
+        }
+
+        //TODO handle having multiple Authors
+        $book->authors()->attach($author->id);
+
         // Auth::user()->books()->save($book);
+
         // TODO: we do want to check the level of Authentication, but we dont want to put the users ID on it 
 
         // Book::create($request->all()); //adds row to DB //gets everything on POST (from the books/create page)
