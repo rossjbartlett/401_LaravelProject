@@ -13,7 +13,7 @@
           <button class="btn btn-outline-danger btn-sm" type="submit" style="float:right;">Delete</button>
           {!! Form::close() !!}
         @elseif(Auth::user()->isSubscriber())
-          {!! Form::open(['method' => 'POST', 'url' => 'subcriptions']) !!}
+          {!! Form::open(['method' => 'POST', 'url' => 'subscriptions']) !!}
           <input id='book_id' name = 'book_id' type = 'hidden' value = {{$book->id}}>
           {!! Form::submit('Subscribe', ['class' => 'btn btn-primary form-control']) !!}
           {!! Form::close() !!}
