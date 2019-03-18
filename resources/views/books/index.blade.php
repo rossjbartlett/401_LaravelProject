@@ -2,7 +2,17 @@
 
 @section('content')
 
-<h1>Books</h1>
+<header>
+    <h1 style="display: inline-block;">Books</h1>
+    @if(Auth::check())
+
+        @if(Auth::user()->isAdmin())
+            <a href="{{action('BookController@create')}}">
+                <button type="button" class="btn btn-primary" style="float:right"> Create a Book </button>
+            </a>
+        @endif
+    @endif        
+</header>
 <hr>
 
 <!-- show messages like: Book sucessfully deleted -->

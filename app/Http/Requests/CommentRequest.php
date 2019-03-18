@@ -13,6 +13,9 @@ class CommentRequest extends FormRequest
      */
     public function authorize()
     {
+        // if (Auth()->user()->isSubscribed($this->id)) {
+        //     return true;
+        // }
         return true;
     }
 

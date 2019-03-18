@@ -61,10 +61,10 @@ class User extends Authenticatable
     }
 
     public function isSubscriber(){
-      return $this->role=="Subscriber";
+      return $this->role=='Subscriber';
     }
 
-    // is user has subscribed to book
+    // is user subscribed to book/has subscribed to book
     public function isSubscribed($book_id)
     {
         $Subscribed = $this->subscriptions()->where('book_id', '=', $book_id)->get();

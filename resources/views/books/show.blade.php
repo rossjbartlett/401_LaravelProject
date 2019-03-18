@@ -46,11 +46,11 @@
       @if(Auth::check())
 
           @if(Auth::user()->isSubscriber() && Auth::user()->isSubscribed($book->id))
-              <h4>Add comments:</h4>
+              <h4>Add comment:</h4>
               {!! Form::open(['action'=>'CommentController@store']) !!}
               <p>{!! Form::textarea('text', null, ['class'=>'form-control']) !!}</p>
               {{ Form::hidden('book_id', $book->id) }}
-              <p>{{ Form::submit('Post Comment') }}</p>
+              <p>{!! Form::submit('Post Comment', ['class' => 'btn btn-primary']) !!}</p>
               {!! Form::close() !!}
           @endif
 
