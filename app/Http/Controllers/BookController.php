@@ -53,38 +53,24 @@ class BookController extends Controller
 
         //new author row(s)
         $author = new Author();
-        $authNames = $request->input('author');
+        $authNames = $request->input('author'); // can be one or many, comma seperated
         $bookTemp = Book::where('ISBN', $request->input('ISBN'))->first();
-        //if multiple authors
-        if (strpos($authNames, ',') !== false) {
-            $auths = explode(",", $authNames);
-            foreach($auths as $name) {
-                //if author isn't already in table
-                if (Author::where('name', '=', $name)->exists() != 1) {
-                    $author = new Author();
-                    $author->name = $name;
-                    $author->save();
-                    $bookTemp->authors()->attach($author->id);
-                }
-                else { //attach for many to many with exisitng
-                     $authTemp = Author::where('name', $name)->first();
-                     $bookTemp->authors()->attach($authTemp->id);
-                }
+        
+    
+        $auths = explode("," , $authNames); //handles multiple auths, or just 1 auth
+        foreach($auths as $name) {
+            //if author isn't already in table
+            if (Author::where('name', '=', $name)->exists() != 1) {
+                $author = new Author();
+                $author->name = $name;
+                $author->save();
+                $bookTemp->authors()->attach($author->id);
+            }
+            else { //attach for many to many with exisitng
+                    $authTemp = Author::where('name', $name)->first();
+                    $bookTemp->authors()->attach($authTemp->id);
             }
         }
-        else {
-            if (Author::where('name', '=', $authNames)->exists() != 1) {
-                $author = new Author();
-                $author->name = $authNames;
-                $author->save();
-                 $bookTemp->authors()->attach($author->id);
-            }   
-            else {
-                 $authTemp = Author::where('name', $name)->first();
-                 $bookTemp->authors()->attach($authTemp->id);
-            } 
-        }    
-
          
        // $bookTemp->authors()->attach($author->id);
 

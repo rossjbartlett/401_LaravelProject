@@ -12,15 +12,14 @@
         <button class="btn btn-outline-danger btn-sm" type="submit" style="float:right;">Delete</button>
         {!! Form::close() !!}
 
-    <h2> Author(s):
-        @php ($i = 0)
+    <h2 style="display:inline"> Author(s): </h2>
         @foreach($book->authors as $author)
-            @if($i>0) 
+            <h2 style="display:inline">
+            @if (!$loop->first)
                 , 
             @endif
             {{$author->name}}</h2>
         @endforeach
-        </h2>
          
         <h4> ISBN: {{$book->ISBN}}</h4>
         

@@ -11,15 +11,8 @@
 
 
 <!-- 
-    TODO: Add author(s) fields 
-    * The author isn't stored in the Book table, though
-    * Will need to add a row, for each Author of the Book, to the Book_Authors table
-    * Ensure it works in books.create and books.edit
+    * Ensure Author field works in books.create and books.edit
 -->
-<div class="form-group">
-    {!! Form::label('author', 'Author:') !!}
-    {!! Form::text('author', null, ['class'=>'form-control']) !!}
-</div>
 
 <div class="form-group">
     {!! Form::label('author', 'Author(s):') !!}
