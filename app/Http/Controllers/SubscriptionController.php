@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
+
+    // public function __construct(){
+    //   $this -> middleware('admin');
+    //   $this -> middleware('subscriber', ['only']);
+    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +30,7 @@ class SubscriptionController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -35,7 +41,16 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subscription = new Subscription();
+        $subscription->book_id = $request->input('book_id');
+        if($request->user()->isSubscriber()){
+          $subscription->user_id = $request->user()->id;
+        }
+        else{
+          //TODO for admins
+        }
+        $subscription->save();
+        return redirect()->route('books.show',$request->input('book_id'));
     }
 
     /**
@@ -78,8 +93,21 @@ class SubscriptionController extends Controller
      * @param  \App\Subscription  $subscription
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subscription $subscription)
+    public function destroy($id)
     {
-        //
+
     }
+
+    public function deleteWithBookID($book_id)
+    {
+      $subscription = Subscription::findOrFail()->where([
+          ['book_id', '=', $book_id],
+          ['user_id', '=', $request->user()->id],
+        ]);
+
+      $subscription->delete();
+      return redirect()->route('books.show',$request->input('book_id'));
+
+    }
+
 }

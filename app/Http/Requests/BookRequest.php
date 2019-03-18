@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\validation\Rule;
+use App\Book;
 
 class BookRequest extends FormRequest
 {
@@ -26,11 +28,11 @@ class BookRequest extends FormRequest
         //Id, Name, ISBN, Publication Year, Publisher, Subscription Status, Timestamp, Image (from amazon)
         return [
             'name' => 'required|min:3',
-            'ISBN' => 'required', //TODO unique
             'publication_year' => 'required',
             'publisher' => 'required',
+            //ISBN we dont want to be editable
             //sub status can be empty to start
-            // image can be empty to start 
+            //image can be empty to start 
         ];
     }
 

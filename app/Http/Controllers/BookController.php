@@ -9,6 +9,12 @@ use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
+
+    public function __construct()
+    {
+      $this->middleware('user', ['only'=>'create']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -52,28 +58,26 @@ class BookController extends Controller
         $book->save();
 
         //new author row(s)
-        $author = new Author();
         $authNames = $request->input('author'); // can be one or many, comma seperated
         $bookTemp = Book::where('ISBN', $request->input('ISBN'))->first();
         
     
         $auths = explode("," , $authNames); //handles multiple auths, or just 1 auth
+
         foreach($auths as $name) {
             //if author isn't already in table
-            if (Author::where('name', '=', $name)->exists() != 1) {
+            if (Author::where('name', 'ILIKE', $name)->exists() != 1) {
                 $author = new Author();
                 $author->name = $name;
                 $author->save();
+                //attach new author
                 $bookTemp->authors()->attach($author->id);
             }
             else { //attach for many to many with exisitng
-                    $authTemp = Author::where('name', $name)->first();
-                    $bookTemp->authors()->attach($authTemp->id);
+                 $authTemp = Author::where('name', $name)->first();
+                 $bookTemp->authors()->attach($authTemp->id);
             }
         }
-         
-       // $bookTemp->authors()->attach($author->id);
-
         // Auth::user()->books()->save($book);
 
         // TODO: we do want to check the level of Authentication, but we dont want to put the users ID on it 
@@ -104,7 +108,8 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = Book::findOrFail($id);
-        return view('books.edit', compact('book')); // compact() replaces with()
+        $authString = implode(', ', $book->authors()->pluck('name')->toArray());
+        return view('books.edit', compact('book', 'authString')); // compact() replaces with()
     }
 
     /**
@@ -113,7 +118,40 @@ class BookController extends Controller
     public function update(BookRequest $request, $id)
     {
         $book = Book::findOrFail($id);
-        $book->update($request->all());
+        $book->update([
+            'name' => $request->input('name'),
+            'publication_year' => $request->input('publication_year'),
+            'publisher' => $request->input('publisher'),
+            'image' => $request->input('image'),
+            'updated_at' => \Carbon\Carbon::now(),
+        ]);
+
+        $authNames = $request->input('author');
+        $bookTemp = Book::where('ISBN', $request->input('ISBN'))->first();
+        //if multiple authors
+        $auths = explode(", ", $authNames);
+        $auths_to_add = [];
+        foreach($auths as $name) {
+            //if author isn't already in table, need new one
+            if (Author::where('name', 'ILIKE', $name)->exists() != 1) {
+                $author = new Author();
+                $author->name = $name;
+                $author->save();
+                //attach new one, but sync to remove and setup anew
+                array_push($auths_to_add, $author->id);
+                // $bookTemp->authors()->sync($author->id);
+            }
+            else { //attach for many to many with exisitng if not already attatched
+                $authTemp = Author::where('name', 'ILIKE', $name)->first();
+                //if(!in_array($authTemp->id, $book->authors()->pluck('id')->toArray())) {
+                    //$bookTemp->authors()->sync($authTemp->id);
+                array_push($auths_to_add, $authTemp->id);
+                //}
+            }
+        }
+        $bookTemp->authors()->sync($auths_to_add);
+   
+
         return redirect('books');
     }
 

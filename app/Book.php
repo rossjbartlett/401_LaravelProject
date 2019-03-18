@@ -21,6 +21,11 @@ class Book extends Model
         return $this->hasMany(User::class);
     }
 
+    //a book can have many subscription
+    public function subcriptions(){
+        return $this->hasMany(Subscription::class);
+    }
+
     //a Book can have max 1 user subscribed to it at a time
     public function currentUser(){
         //TODO

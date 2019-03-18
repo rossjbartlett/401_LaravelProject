@@ -44,10 +44,30 @@ class User extends Authenticatable
         return $this->hasMany(Book::class);
     }
 
+    //a user can have many subscription
+    public function subscriptions(){
+        return $this->hasMany(Subscription::class);
+    }
+
     //TODO: may want another function to return all the books that the user has EVER subscribed to?
 
      //get the comments that the user has made
      public function comments(){
         return $this->hasMany(Comment::class);
     }
-}
+
+    public function isAdmin(){
+      return $this->role=='Admin';
+    }
+
+    public function isSubscriber(){
+      return $this->role=="Subscriber";
+    }
+
+    // is user has subscribed to book
+    public function isSubscribed($book_id)
+    {
+        $Subscribed = $this->subscriptions()->where('book_id', '=', $book_id)->get();
+        return !($Subscribed->isEmpty());
+    }
+  }

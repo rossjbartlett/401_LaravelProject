@@ -1,4 +1,4 @@
-@extends('master')
+@extends('layouts.app')
 
 @section('content')
 
@@ -25,9 +25,13 @@
     </div>
     <div class="col-md-10">
         <h2>
+            @if((Auth::user() != null) && (Auth::user()->isAdmin() || Auth::user()->isSubscriber()))
             <a href="{{action('BookController@show',[$book->id])}}">
                 {{$book->name}}
             </a>
+            @else
+                {{$book->name}}
+            @endif
         </h2>
         {{$book->publisher}}, {{$book->publication_year}}
     </div>
@@ -37,4 +41,4 @@
 <hr>
 @endforeach
 
-@stop 
+@stop
