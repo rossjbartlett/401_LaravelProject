@@ -17,11 +17,11 @@ class RedirectIfNotAdmin
     {
         // Note: this middleware is not designed for use in 'middleware' setup only in '$routeMiddleware'
 
-        if($request->user() != null)    // check is user is logged in
+        if($request->user() == null)    // check is user is logged in
         {
-            return view('login');
+            return redirect('login');
         }
-        if(! $request->user()->isAnAdmin()) // check if user is an admin
+        if(! $request->user()->isAdmin()) // check if user is an admin
         {
             return back();
         }
