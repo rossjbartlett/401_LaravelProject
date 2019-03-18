@@ -9,6 +9,12 @@ use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
+
+    public function __construct()
+    {
+      $this->middleware('user', ['only'=>'create']);
+    }
+
     /**
      * Display a listing of the resource.
      *

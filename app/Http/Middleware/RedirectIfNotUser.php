@@ -17,10 +17,11 @@ class RedirectIfNotUser
     {
         // Note: this middleware is not designed for use in 'middleware' setup only in '$routeMiddleware'
 
-        if(!isset($request->user()))    // check is user is logged in
+        if($request->user() != null)    // check is user is logged in
         {
             return view('login');
         }
 
-        return $next($request); // proceed to the next  middleware check    }
+        return $next($request); // proceed to the next  middleware check    
+    }
 }
