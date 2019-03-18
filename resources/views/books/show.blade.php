@@ -12,8 +12,11 @@
           {!! Form::model($book, ['method'=>'DELETE', 'action'=>['BookController@destroy',$book->id]]) !!}
           <button class="btn btn-outline-danger btn-sm" type="submit" style="float:right;">Delete</button>
           {!! Form::close() !!}
-        @elseif(Auth::user()->isSubscriber('subscriber'))
-
+        @elseif(Auth::user()->isSubscriber())
+          {!! Form::open(['method' => 'POST', 'url' => 'subcriptions']) !!}
+          <input id='book_id' name = 'book_id' type = 'hidden' value = {{$book->id}}>
+          {!! Form::submit('Subscribe', ['class' => 'btn btn-primary form-control']) !!}
+          {!! Form::close() !!}
         @endif
 
         <h2> Author(s):

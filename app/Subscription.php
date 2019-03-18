@@ -11,5 +11,16 @@ class Subscription extends Model
      *
      * @var array
      */
-    protected $fillable = []; // TODO book_id and user_id should not be fillable right?
+    protected $fillable = [
+      'book_id', 'user_id'
+    ]; // TODO book_id and user_id should not be fillable right?
+
+
+    public function user(){
+      return $this->belongsTo(User::class);
+    }
+
+    public function book(){
+      return $this->belongsTo(Book::class);
+    }
 }

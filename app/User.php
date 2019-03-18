@@ -44,6 +44,11 @@ class User extends Authenticatable
         return $this->hasMany(Book::class);
     }
 
+    //a uswr can have many subscription
+    public function subcriptions(){
+        return $this->hasMany(Subscription::class);
+    }
+
     //TODO: may want another function to return all the books that the user has EVER subscribed to?
 
      //get the comments that the user has made
