@@ -22,6 +22,7 @@
 
         <h4> Subscription(s): <h4>
             <div style="margin-left: 50px; font-size: 20px">
+                            <!-- want to change here: only show list of books currently subscribed see controller-->
         @foreach($subscribed_books as $book)
             {{$book->name}} <br/>
         @endforeach
