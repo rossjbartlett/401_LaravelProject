@@ -57,14 +57,19 @@
       @endif    
 
 
-      <h4 style="display:inline"> Posted Comment(s): </br> </h4>
+      <h4 style="display:inline"> Posted Comment(s): </br> </h4> 
+      <hr>
           @foreach($book->comments->reverse() as $comment)
-          <div style="border: 1px solid lightgrey">
-              <h5 style="display:inline">
-              {{$comment->text}}</h5>
-              <h6 style = "text-align: right"> Posted by: {{$comment->user->email}} - {{$comment->created_at}} </h6>
-          </div>
-          <br>
+            <div class="col-sm-5" style="border-bottom: 1px solid lightgrey;">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <strong>{{$comment->user->email}}</strong> 
+                <span class="text-muted"> &nbsp;&nbsp;{{$comment->created_at}}</span>
+              </div>
+              <div class="panel-body" style="padding-bottom:10px">{{$comment->text}} </div>
+            </div>
+            </div>
+            <br>
           @endforeach
 
 
