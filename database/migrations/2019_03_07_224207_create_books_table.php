@@ -21,8 +21,9 @@ class CreateBooksTable extends Migration
             $table->string('ISBN')->unique();
             $table->string('publication_year');
             $table->string('publisher');
-            $table->string('subscription_status')->nullable();
+            $table->integer('subscription_status')->nullable();
             $table->string('image')->nullable();
+            $table->foreign('subscription_status')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

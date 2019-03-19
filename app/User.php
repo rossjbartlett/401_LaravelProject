@@ -73,10 +73,8 @@ class User extends Authenticatable
 
     public function isCurrentSubscriber($book_id)
     {
-        $subs = Subscription::where('book_id', '=', $book_id)->get();
-        if ($subs->isEmpty()) return false;
-        $last = $subs->last();
-        return ($last->user_id == $this->id);
+        $book = Book::findOrFail($book_id);
+        return ($this->id == $book->subscription_status);
     }
 
   }

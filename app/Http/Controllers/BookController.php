@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Author;
+use App\Subscription;
+use Illuminate\Support\Facades\Auth;
 // use Illuminate\Http\Request;
 use App\Http\Requests\BookRequest;
 
@@ -61,8 +63,8 @@ class BookController extends Controller
         //new author row(s)
         $authNames = $request->input('author'); // can be one or many, comma seperated
         $bookTemp = Book::where('ISBN', $request->input('ISBN'))->first();
-        
-    
+
+
         $auths = explode(", " , $authNames); //handles multiple auths, or just 1 auth
 
         foreach($auths as $name) {
@@ -81,7 +83,7 @@ class BookController extends Controller
         }
         // Auth::user()->books()->save($book);
 
-        // TODO: we do want to check the level of Authentication, but we dont want to put the users ID on it 
+        // TODO: we do want to check the level of Authentication, but we dont want to put the users ID on it
 
         // Book::create($request->all()); //adds row to DB //gets everything on POST (from the books/create page)
         return redirect('books');
@@ -109,7 +111,7 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = Book::findOrFail($id);
-        //TODO need consistent use of choosing ', ' or ',' 
+        //TODO need consistent use of choosing ', ' or ','
         $authString = implode(', ', $book->authors()->pluck('name')->toArray());
         return view('books.edit', compact('book', 'authString')); // compact() replaces with()
     }
@@ -128,7 +130,7 @@ class BookController extends Controller
             'updated_at' => \Carbon\Carbon::now(),
         ]);
 
-        
+
         $authNames = $request->input('author');
         $bookTemp = Book::where('ISBN', $request->input('ISBN'))->first();
         //if multiple authors
@@ -153,7 +155,7 @@ class BookController extends Controller
             }
         }
         $bookTemp->authors()->sync($auths_to_add);
-   
+
 
         return redirect('books');
     }
@@ -172,5 +174,33 @@ class BookController extends Controller
         }
         $book->delete();
         return redirect('books')->with('message', 'Book Deleted.');;
+    }
+
+    //For subscriber type users to subscribe to a book
+    public function subscribe($book_id){
+      $book = Book::findOrFail($book_id);
+      if(empty($book->subscription_status)){
+        $subscription = new Subscription();
+        $subscription->book_id = $book_id;
+        $subscription->user_id = Auth::user()->id;
+        $book->update([
+            'subscription_status' => Auth::user()->id,
+        ]);
+        $subscription->save();
+        return redirect()->route('books.show',$book_id);
+      }
+      else{
+        //TODO return error
+      }
+    }
+
+    //For subscriber type users to unbscribe from a book
+    public function unsubscribe($book_id){
+      $book = Book::findOrFail($book_id);
+      $book->update([
+          'subscription_status' => null,
+      ]);
+      return redirect()->route('books.show',$book_id);
+
     }
 }

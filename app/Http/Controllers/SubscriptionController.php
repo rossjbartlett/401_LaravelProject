@@ -41,17 +41,20 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        $subscription = new Subscription();
-        $subscription->book_id = $request->input('book_id');
-        if($request->user()->isSubscriber()){
+        $book = Book::findOrFail($request->input('book_id'));
+        if(empty($book->subscription_status)){
+          $subscription = new Subscription();
+          $subscription->book_id = $request->input('book_id');
           $subscription->user_id = $request->user()->id;
-          //TODO need to update the subscirption_status in Book
+          $book->update([
+              'subscription_status' => $request->user()->id,
+          ]);
+          $subscription->save();
+          return redirect()->route('books.show',$request->input('book_id'));
         }
         else{
-          //TODO for admins
+          //TODO return error
         }
-        $subscription->save();
-        return redirect()->route('books.show',$request->input('book_id'));
     }
 
     /**
@@ -99,17 +102,5 @@ class SubscriptionController extends Controller
 
     }
 
-    public function deleteWithBookID($book_id)
-    {
-      $subscription = Subscription::findOrFail()->where([
-          ['book_id', '=', $book_id],
-          ['user_id', '=', $request->user()->id],
-          //TODO request above and below  is undefined?
-        ]);
-
-      $subscription->delete();
-      return redirect()->route('books.show',$request->input('book_id'));
-
-    }
 
 }

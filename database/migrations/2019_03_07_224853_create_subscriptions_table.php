@@ -17,6 +17,8 @@ class CreateSubscriptionsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('book_id');
             $table->integer('user_id');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
