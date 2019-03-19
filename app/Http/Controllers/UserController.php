@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\User;
+use App\Book;
 
 class UserController extends Controller
 {
@@ -33,8 +34,12 @@ class UserController extends Controller
             abort(404);
         }
         $user = User::findOrFail($id);
-        // the 'findOrFail' basically does this: if(is_null($book)) abort(404);
-        return view('users.show', compact('user')); // compact() replaces with()
+        $subscribed_book = [];
+        foreach($user->subscriptions as $subscription) {
+            $book = Book::where('id', $subscription->book_id)->get();
+            $subscribed_book = $book;
+        }
+        return view('users.show', compact('user', 'subscribed_book')); // compact() replaces with()
     }
 
 
