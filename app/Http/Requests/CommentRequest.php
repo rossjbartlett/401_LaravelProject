@@ -13,9 +13,9 @@ class CommentRequest extends FormRequest
      */
     public function authorize()
     {
-        // if (Auth()->user()->isSubscribed($this->id)) {
-        //     return true;
-        // }
+        if (Auth()->user()->isSubscribed($this->book_id)) {
+            return true;
+        }
         return true;
     }
 
