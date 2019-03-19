@@ -64,17 +64,23 @@ class User extends Authenticatable
       return $this->role=='Subscriber';
     }
 
-    // is user subscribed to book/has subscribed to book
+    // has the user ever subscribed to book
     public function hasEverSubscribed($book_id)
     {
         $Subscribed = $this->subscriptions()->where('book_id', '=', $book_id)->get();
         return !($Subscribed->isEmpty());
     }
 
+    //is the user currently subscribed to the book
     public function isCurrentSubscriber($book_id)
     {
         $book = Book::findOrFail($book_id);
         return ($this->id == $book->subscription_status);
+    }
+
+    public function otherSubscriberExists($book_id){
+      $book = Book::findOrFail($book_id);
+      return !(empty($book->subscription_status));
     }
 
   }

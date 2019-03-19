@@ -35,13 +35,12 @@
                   {!! Form::close() !!}
                 @elseif( Auth::user()->hasEverSubscribed($book->id))
                   You have subscribed to this book before.
-                <!-- TODO implement this else clause -->
-                @elseif(true)
+                @elseif(Auth::user()->otherSubscriberExists($book->id))
+                  Another user is currently subscribed to this book.
+                @else
                   {!! Form::model($book, ['method'=>'POST', 'action'=>['BookController@subscribe',$book->id]]) !!}
                   {!! Form::submit('Subscribe', ['class' => 'btn btn-primary']) !!}
                   {!! Form::close() !!}
-                @else
-                  Another user is currently subscribed to this book.
                 @endif
           @endif
 
