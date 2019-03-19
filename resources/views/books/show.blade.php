@@ -30,19 +30,19 @@
               </div>
           @elseif(Auth::user()->isSubscriber())
                 @if( Auth::user()->isCurrentSubscriber($book->id))
-                    <!-- TODO do we want an unsubscribe button -->
-                    You are currently subscribed to this book.
-                @elseif( Auth::user()->hasEverSubscribed($book->id))
-                    You are have subscribed to this book before.
-                
-                @else
-                    <!--  TODO this should only show if book is not already subscribed to someone, right -->
-                    <!-- use  currentSubscriberID(), or the subscirption_status field in the book...? -->
-                  {!! Form::open(['method' => 'POST', 'url' => 'subscriptions']) !!}
-                  <input id='book_id' name = 'book_id' type = 'hidden' value = '{{$book->id}}'>
-                  {!! Form::submit('Subscribe', ['class' => 'btn btn-primary', 'style' => 'float:right']) !!}
+                  {!! Form::model($book, ['method'=>'POST', 'action'=>['BookController@unsubscribe',$book->id]]) !!}
+                  {!! Form::submit('Unsubscribe', ['class' => 'btn btn-primary']) !!}
                   {!! Form::close() !!}
-            @endif
+                @elseif( Auth::user()->hasEverSubscribed($book->id))
+                  You have subscribed to this book before.
+                <!-- TODO implement this else clause -->
+                @elseif(true)
+                  {!! Form::model($book, ['method'=>'POST', 'action'=>['BookController@subscribe',$book->id]]) !!}
+                  {!! Form::submit('Subscribe', ['class' => 'btn btn-primary']) !!}
+                  {!! Form::close() !!}
+                @else
+                  Another user is currently subscribed to this book.
+                @endif
           @endif
 
         @endif
@@ -63,16 +63,16 @@
               {!! Form::close() !!}
           @endif
 
-      @endif    
+      @endif
 
 
-      <h4 style="display:inline"> Posted Comment(s): </br> </h4> 
+      <h4 style="display:inline"> Posted Comment(s): </br> </h4>
       <hr>
           @foreach($book->comments->reverse() as $comment)
             <div class="col-sm-5" style="border-bottom: 1px solid lightgrey;">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <strong>{{$comment->user->email}}</strong> 
+                <strong>{{$comment->user->email}}</strong>
                 <span class="text-muted"> &nbsp;&nbsp;{{$comment->created_at}}</span>
               </div>
               <div class="panel-body" style="padding-bottom:10px">{{$comment->text}} </div>

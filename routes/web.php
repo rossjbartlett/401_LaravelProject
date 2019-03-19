@@ -20,6 +20,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::post('books/{book}/subscribe', 'BookController@subscribe');
+Route::post('books/{book}/unsubscribe', 'BookController@unsubscribe');
+
 Route::resource('books', 'BookController');
 Route::resource('authors', 'AuthorController');
 Route::resource('subscriptions', 'SubscriptionController');

@@ -12,7 +12,7 @@ class Subscription extends Model
      * @var array
      */
     protected $fillable = [
-      'book_id', 'user_id'
+      // 'book_id', 'user_id'
     ]; // TODO book_id and user_id should not be fillable right?
 
 
