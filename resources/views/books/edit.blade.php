@@ -7,7 +7,7 @@
     <hr>
 
 
-    {!! Form::model($book, ['method'=>'PATCH', 'action'=>['BookController@update',$book->first()->id]]) !!}
+    {!! Form::model($book, ['method'=>'PATCH', 'action'=>['BookController@update',$book->id]]) !!}
     @include ('books.form', ['submitButtonText'=>'Update Book', 'editFlag' =>'true'])
     {!! Form::close() !!}
 

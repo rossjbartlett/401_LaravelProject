@@ -21,14 +21,13 @@
 
         <h4>{{$author->name}}</h4>
 
-        <!-- TOOD: how to make it so it only shows this if we are ADMIN -->
-        {{ Form::model($author, ['method' => 'DELETE', 'action' => ['AuthorController@destroy', $author->id]]) }}
-        
-        <div class="form-group" style="padding-top: 5px"> 
-             {{ Form::submit('Delete',  ['class' => 'btn btn-outline-danger btn-sm']) }}
-        </div>
-
-        {{ Form::close() }} 
+        @if(Auth::check() && Auth::User()->isAdmin())
+            <div class="btn-group-vertical">
+                {{ Form::model($author, ['method' => 'DELETE', 'action' => ['AuthorController@destroy', $author->id]]) }}
+                    {{ Form::submit('Delete',  ['class' => 'btn btn-outline-danger btn-sm']) }}
+                {!! Form::close() !!}
+            </div>
+        @endif
 
 </div>
 <hr>

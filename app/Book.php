@@ -22,13 +22,20 @@ class Book extends Model
     }
 
     //a book can have many subscription
-    public function subcriptions(){
+    public function subscriptions(){
         return $this->hasMany(Subscription::class);
     }
 
+    public function hasSubscriptions(){
+        return !empty($this->subscriptions->items);
+    }
+
     //a Book can have max 1 user subscribed to it at a time
-    public function currentUser(){
-        //TODO
+    public function currentSubscriberID(){
+        //TODO use subscription_status field in the table?
+        $latest_sub = $this->subscriptions()->get()->last();
+        if(is_null($latest_sub)) return null;
+        return $latest_sub->user_id;
     }
 
 

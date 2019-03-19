@@ -47,5 +47,5 @@ class DatabaseSeeder extends Seeder
 			}
 			fclose ( $handle );
 		}
-    }
+		}
 }

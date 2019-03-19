@@ -63,7 +63,7 @@ class BookController extends Controller
         $bookTemp = Book::where('ISBN', $request->input('ISBN'))->first();
         
     
-        $auths = explode("," , $authNames); //handles multiple auths, or just 1 auth
+        $auths = explode(", " , $authNames); //handles multiple auths, or just 1 auth
 
         foreach($auths as $name) {
             //if author isn't already in table
@@ -109,6 +109,7 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = Book::findOrFail($id);
+        //TODO need consistent use of choosing ', ' or ',' 
         $authString = implode(', ', $book->authors()->pluck('name')->toArray());
         return view('books.edit', compact('book', 'authString')); // compact() replaces with()
     }
@@ -127,6 +128,7 @@ class BookController extends Controller
             'updated_at' => \Carbon\Carbon::now(),
         ]);
 
+        
         $authNames = $request->input('author');
         $bookTemp = Book::where('ISBN', $request->input('ISBN'))->first();
         //if multiple authors

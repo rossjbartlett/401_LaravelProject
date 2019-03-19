@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Course;
+use App\Subscription;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -65,9 +65,18 @@ class User extends Authenticatable
     }
 
     // is user subscribed to book/has subscribed to book
-    public function isSubscribed($book_id)
+    public function hasEverSubscribed($book_id)
     {
         $Subscribed = $this->subscriptions()->where('book_id', '=', $book_id)->get();
         return !($Subscribed->isEmpty());
     }
+
+    public function isCurrentSubscriber($book_id)
+    {
+        $subs = Subscription::where('book_id', '=', $book_id)->get();
+        if ($subs->isEmpty()) return false;
+        $last = $subs->last();
+        return ($last->user_id == $this->id);
+    }
+
   }

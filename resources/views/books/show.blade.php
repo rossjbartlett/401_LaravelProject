@@ -7,30 +7,6 @@
     <article>
         <h2> Publisher: {{$book->publisher}}, {{$book->publication_year}}</h2>
 
-        @if(Auth::check())
-
-          @if(Auth::user()->isAdmin())
-              <div class="btn-group-vertical" style="float:right">
-                  {!! Form::model($book, ['method'=>'DELETE', 'action'=>['BookController@destroy',$book->id]]) !!}
-                  {!! Form::submit('Delete', ['class' => 'btn btn-outline-danger btn-sm']) !!}
-                  {!! Form::close() !!}
-                  <br>
-                  <a href="{{action('BookController@create')}}">
-                      <button type="button" class="btn btn-primary btn-sm" style="float:right"> Edit </button>
-                  </a>
-              </div>
-          @elseif(Auth::user()->isSubscriber())
-              @if( Auth::user()->isSubscribed($book->id))
-                  <!-- TODO do we want to unsubscribe -->
-              @else
-                  {!! Form::open(['method' => 'POST', 'url' => 'subscriptions']) !!}
-                  <input id='book_id' name = 'book_id' type = 'hidden' value = {{$book->id}}>
-                  {!! Form::submit('Subscribe', ['class' => 'btn btn-primary', 'style' => 'float:right']) !!}
-                  {!! Form::close() !!}
-              @endif
-          @endif
-
-        @endif
 
         <h2> Author(s):
             {{implode(', ', $book->authors()->pluck('name')->toArray())}}
@@ -38,14 +14,47 @@
 
         <h4> ISBN: {{$book->ISBN}}</h4>
 
+        @if(Auth::check())
+
+          @if(Auth::user()->isAdmin())
+              <div class="btn-group-vertical" style="float:right">
+                    <!--  DELETE BUTTON   -->
+                  {!! Form::model($book, ['method'=>'DELETE', 'action'=>['BookController@destroy',$book->id]]) !!}
+                  {!! Form::submit('Delete', ['class' => 'btn btn-outline-danger btn-sm']) !!}
+                  {!! Form::close() !!}
+                  <br>
+                    <!--  EDIT BUTTON   -->
+                  {!! Form::model($book, ['method'=>'GET', 'action'=>['BookController@edit',$book->id]]) !!}
+                  {!! Form::submit('Edit', ['class' => 'btn btn-outline-danger btn-sm']) !!}
+                  {!! Form::close() !!}
+              </div>
+          @elseif(Auth::user()->isSubscriber())
+                @if( Auth::user()->isCurrentSubscriber($book->id))
+                    <!-- TODO do we want an unsubscribe button -->
+                    You are currently subscribed to this book.
+                @elseif( Auth::user()->hasEverSubscribed($book->id))
+                    You are have subscribed to this book before.
+                
+                @else
+                    <!--  TODO this should only show if book is not already subscribed to someone, right -->
+                    <!-- use  currentSubscriberID(), or the subscirption_status field in the book...? -->
+                  {!! Form::open(['method' => 'POST', 'url' => 'subscriptions']) !!}
+                  <input id='book_id' name = 'book_id' type = 'hidden' value = '{{$book->id}}'>
+                  {!! Form::submit('Subscribe', ['class' => 'btn btn-primary', 'style' => 'float:right']) !!}
+                  {!! Form::close() !!}
+            @endif
+          @endif
+
+        @endif
+
+        <br>
         <img src="{{$book->image}}" alt="book img"  width="20%">
         <hr>
 
-<!-- TODO: make it so it only subscribed users can comment??? -->
 
       @if(Auth::check())
 
-          @if(Auth::user()->isSubscriber() && Auth::user()->isSubscribed($book->id))
+          @if(Auth::user()->isSubscriber() && Auth::user()->hasEverSubscribed($book->id))
               <h4>Add comment:</h4>
               {!! Form::open(['action'=>'CommentController@store']) !!}
               <p>{!! Form::textarea('text', null, ['class'=>'form-control']) !!}</p>

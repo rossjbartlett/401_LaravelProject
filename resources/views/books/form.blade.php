@@ -16,9 +16,9 @@
 <div class="form-group">
     {!! Form::label('author', 'Author(s):') !!}
     @if($editFlag=='true') 
-        {!! Form::text('author', $authString, ['class'=>'form-control', 'placeholder' => 'spearate authors by a comma(Mark Fitzjerald, John Green)']) !!}
+        {!! Form::text('author', $authString, ['class'=>'form-control', 'placeholder' => 'seperate authors by a comma and a space (Mark Fitzjerald, John Green)']) !!}
     @else
-        {!! Form::text('author', null, ['class'=>'form-control', 'placeholder' => 'spearate authors by a comma with no spaces (Mark Fitzjerald,John Green)']) !!}
+        {!! Form::text('author', null, ['class'=>'form-control', 'placeholder' => 'seperate authors by a comma and space (Mark Fitzjerald, John Green)']) !!}
     @endif  
 </div>
 

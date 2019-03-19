@@ -45,6 +45,7 @@ class SubscriptionController extends Controller
         $subscription->book_id = $request->input('book_id');
         if($request->user()->isSubscriber()){
           $subscription->user_id = $request->user()->id;
+          //TODO need to update the subscirption_status in Book
         }
         else{
           //TODO for admins
@@ -103,6 +104,7 @@ class SubscriptionController extends Controller
       $subscription = Subscription::findOrFail()->where([
           ['book_id', '=', $book_id],
           ['user_id', '=', $request->user()->id],
+          //TODO request above and below  is undefined?
         ]);
 
       $subscription->delete();
