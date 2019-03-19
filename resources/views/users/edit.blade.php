@@ -28,23 +28,29 @@
         <div class = "container" style = "margin-left: 50px">
             @foreach($all_books as $book)
             <!-- want to change here: only show list of books that are available to subscribe and only check martk ones that are currently subscribed see controller-->
-                {!! Form::checkbox('subscriptions', $book->id, in_array($book->id, $subscribed_books_ids) ? true : false) !!}
+                @if($user->isCurrentSubscriber($book->id))
+                  {!! Form::checkbox($book->id, null,  true) !!}
+                @elseif((!$user->hasEverSubscribed($book->id))&&(!$user->otherSubscriberExists($book->id)))
+                  {!! Form::checkbox($book->id, null,false) !!}
+                @else
+                  {!! Form::checkbox($book->id, null, false, ['disabled' => 'disabled']) !!} 
+                @endif
                 {{ $book->name }}
                 <br/>
-            @endforeach  
-        </div>    
+            @endforeach
+        </div>
     </div>
 
     <!-- probably want a way to unsubscirbe or subsribe users to some book in here -->
 
 	<div class="form-group">
     	{!! Form::submit('Update User', ['class'=>'btn btn-primary form-control']) !!}
-	</div> 
+	</div>
 
     {!! Form::close() !!}
 
     @include ('errors.list')
 
 
-    
+
 @stop

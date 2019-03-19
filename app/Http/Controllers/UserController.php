@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();     //get all users
+        $users = User::orderby('id')->get();     //get all users
         return view('users.index')->with('users', $users);
     }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
             $book = Book::where('id', $subscription->book_id)->get()->first();
             array_push($subscribed_books, $book);
         }
-        return view('users.show', compact('user', 'subscribed_books')); 
+        return view('users.show', compact('user', 'subscribed_books'));
     }
 
 
@@ -53,15 +53,9 @@ class UserController extends Controller
     public function edit($id)
     {
     	$user = User::findOrFail($id);
-        $subscribed_books_ids = [];
-        $all_books = [];
-        foreach($user->subscriptions as $subscription) {
-            $book = Book::where('id', $subscription->book_id)->first();
-            array_push($subscribed_books_ids, $book->id);
-        }
-         //want to change here: only show list of books that are available to subscribe to not all_books and only check mark ones that are currently subscribed so not subscribed table
-        $all_books = Book::all();
-    	return view('users.edit', compact('user', 'subscribed_books_ids', 'all_books'));
+      $all_books = [];
+      $all_books = Book::orderby('id')->get();;
+    	return view('users.edit', compact('user', 'all_books'));
 
     }
 
@@ -79,7 +73,7 @@ class UserController extends Controller
             'updated_at' => \Carbon\Carbon::now(),
         ]);
 
-         //todo update book subscription status 
+         //todo update book subscription status
 
         return redirect('users');
     }

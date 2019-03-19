@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 class SubscriptionController extends Controller
 {
 
-    // public function __construct(){
-    //   $this -> middleware('admin');
-    //   $this -> middleware('subscriber', ['only']);
-    // }
+    public function __construct(){
+      $this -> middleware('admin');
+    }
 
     /**
      * Display a listing of the resource.
