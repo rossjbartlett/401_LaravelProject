@@ -27,16 +27,14 @@
                   {!! Form::model($book, ['method'=>'GET', 'action'=>['BookController@edit',$book->id]]) !!}
                   {!! Form::submit('Edit', ['class' => 'btn btn-outline-danger btn-sm']) !!}
                   {!! Form::close() !!}
-              </div>
+              </div style="font-size:15px">
           @elseif(Auth::user()->isSubscriber())
                 @if( Auth::user()->isCurrentSubscriber($book->id))
                   {!! Form::model($book, ['method'=>'POST', 'action'=>['BookController@unsubscribe',$book->id]]) !!}
                   {!! Form::submit('Unsubscribe', ['class' => 'btn btn-primary']) !!}
                   {!! Form::close() !!}
-                @elseif( Auth::user()->hasEverSubscribed($book->id))
-                  You have subscribed to this book before.
                 @elseif(Auth::user()->otherSubscriberExists($book->id))
-                  Another user is currently subscribed to this book.
+                  Another user is currently subscribed to this book <br/>
                 @else
                   {!! Form::model($book, ['method'=>'POST', 'action'=>['BookController@subscribe',$book->id]]) !!}
                   {!! Form::submit('Subscribe', ['class' => 'btn btn-primary']) !!}

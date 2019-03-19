@@ -23,24 +23,26 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderby('id')->get();     //get all users
+        $users = User::where('role', 'Subscriber')->orderby('id')->get();     //get all users
         return view('users.index')->with('users', $users);
     }
 
-   //go to an book from the URL=: /book/{id}
     public function show($id)
     {
         if(!ctype_digit($id)){ // string consists of all digs, thus is an int
             abort(404);
         }
+
         $user = User::findOrFail($id);
-        $subscribed_books = [];
+        $current_subscribed_books = [];
           //want to change here: only show list of books that are currently subscribed so not subscribed table
         foreach($user->subscriptions as $subscription) {
             $book = Book::where('id', $subscription->book_id)->get()->first();
-            array_push($subscribed_books, $book);
+            if($user->isCurrentSubscriber($book->id)) {
+                array_push($current_subscribed_books, $book);
+            }   
         }
-        return view('users.show', compact('user', 'subscribed_books'));
+        return view('users.show', compact('user', 'current_subscribed_books'));
     }
 
 
@@ -53,9 +55,16 @@ class UserController extends Controller
     public function edit($id)
     {
     	$user = User::findOrFail($id);
-      $all_books = [];
-      $all_books = Book::orderby('id')->get();;
-    	return view('users.edit', compact('user', 'all_books'));
+        $available_books = [];
+        $available_books = Book::whereNull('subscription_status')->orWhere('subscription_status', $id)->orderby('id')->get();
+        $current_subscribed_book_ids = [];
+        foreach($user->subscriptions as $subscription) {
+            $book = Book::where('id', $subscription->book_id)->get()->first();
+            if($user->isCurrentSubscriber($book->id)) {
+                array_push($current_subscribed_book_ids, $book->id);
+            }   
+        }
+    	return view('users.edit', compact('user', 'available_books', 'current_subscribed_book_ids'));
 
     }
 
@@ -72,6 +81,9 @@ class UserController extends Controller
 
             'updated_at' => \Carbon\Carbon::now(),
         ]);
+
+         //returns array of book_ids that are checked off
+        $subscriptions =  $request->input('subscriptions');
 
          //todo update book subscription status
 

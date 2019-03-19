@@ -102,7 +102,6 @@
             @elseif(Auth()->user()->isSubscriber())
                 <a href="/books">Books</a>
                 <a href="/authors">Authors</a>
-                <a href="/myBooks">My Books</a>
             @endif    
         </div>
     </div>
