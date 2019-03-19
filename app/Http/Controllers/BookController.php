@@ -13,6 +13,7 @@ class BookController extends Controller
     public function __construct()
     {
       $this->middleware('user', ['only'=>'create']);
+      $this->middleware('admin', ['only'=>'store', 'only'=>'edit']);
     }
 
     /**
