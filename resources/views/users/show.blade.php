@@ -22,8 +22,8 @@
 
         <h4> Subscription(s): <h4>
             <div style="margin-left: 50px; font-size: 20px">
-        @foreach($subscribed_book as $book)
-            &nbsp;&nbsp;&nbsp; {{$book->name}} <br/>
+        @foreach($subscribed_books as $book)
+            {{$book->name}} <br/>
         @endforeach
             </div>
     </div>	

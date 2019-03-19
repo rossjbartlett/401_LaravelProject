@@ -34,12 +34,13 @@ class UserController extends Controller
             abort(404);
         }
         $user = User::findOrFail($id);
-        $subscribed_book = [];
+        $subscribed_books = [];
+          //want to change here: only show list of books that are currently subscribed so not subscribed table
         foreach($user->subscriptions as $subscription) {
-            $book = Book::where('id', $subscription->book_id)->get();
-            $subscribed_book = $book;
+            $book = Book::where('id', $subscription->book_id)->get()->first();
+            array_push($subscribed_books, $book);
         }
-        return view('users.show', compact('user', 'subscribed_book')); // compact() replaces with()
+        return view('users.show', compact('user', 'subscribed_books')); 
     }
 
 
@@ -52,7 +53,15 @@ class UserController extends Controller
     public function edit($id)
     {
     	$user = User::findOrFail($id);
-    	return view('users.edit', compact('user'));
+        $subscribed_books_ids = [];
+        $all_books = [];
+        foreach($user->subscriptions as $subscription) {
+            $book = Book::where('id', $subscription->book_id)->first();
+            array_push($subscribed_books_ids, $book->id);
+        }
+         //want to change here: only show list of books that are available to subscribe to not all_books and only check mark ones that are currently subscribed so not subscribed table
+        $all_books = Book::all();
+    	return view('users.edit', compact('user', 'subscribed_books_ids', 'all_books'));
 
     }
 
@@ -70,6 +79,7 @@ class UserController extends Controller
             'updated_at' => \Carbon\Carbon::now(),
         ]);
 
+         //todo update book subscription status 
 
         return redirect('users');
     }
