@@ -40,20 +40,7 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        $book = Book::findOrFail($request->input('book_id'));
-        if(empty($book->subscription_status)){
-          $subscription = new Subscription();
-          $subscription->book_id = $request->input('book_id');
-          $subscription->user_id = $request->user()->id;
-          $book->update([
-              'subscription_status' => $request->user()->id,
-          ]);
-          $subscription->save();
-          return redirect()->route('books.show',$request->input('book_id'));
-        }
-        else{
-          //TODO return error
-        }
+
     }
 
     /**

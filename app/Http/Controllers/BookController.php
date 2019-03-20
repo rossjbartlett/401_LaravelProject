@@ -180,13 +180,15 @@ class BookController extends Controller
     public function subscribe($book_id){
       $book = Book::findOrFail($book_id);
       if(empty($book->subscription_status)){
-        $subscription = new Subscription();
-        $subscription->book_id = $book_id;
-        $subscription->user_id = Auth::user()->id;
         $book->update([
             'subscription_status' => Auth::user()->id,
         ]);
-        $subscription->save();
+        if(!(Subscription::where([['book_id','=',$book_id],['user_id','=',Auth::user()->id]])->exists())){
+          $subscription = new Subscription();
+          $subscription->book_id = $book_id;
+          $subscription->user_id = Auth::user()->id;
+          $subscription->save();
+        }
         return redirect()->route('books.show',$book_id);
       }
       else{

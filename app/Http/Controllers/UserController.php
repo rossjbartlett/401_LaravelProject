@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('role', 'Subscriber')->orderby('id')->get();     //get all users
+        $users = User::orderby('id')->get();     //get all users
         return view('users.index')->with('users', $users);
     }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
             $book = Book::where('id', $subscription->book_id)->get()->first();
             if($user->isCurrentSubscriber($book->id)) {
                 array_push($current_subscribed_books, $book);
-            }   
+            }
         }
         return view('users.show', compact('user', 'current_subscribed_books'));
     }
@@ -62,7 +62,7 @@ class UserController extends Controller
             $book = Book::where('id', $subscription->book_id)->get()->first();
             if($user->isCurrentSubscriber($book->id)) {
                 array_push($current_subscribed_book_ids, $book->id);
-            }   
+            }
         }
     	return view('users.edit', compact('user', 'available_books', 'current_subscribed_book_ids'));
 

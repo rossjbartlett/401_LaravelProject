@@ -27,14 +27,6 @@
         {!! Form::label('subscriptions[]', 'Subscription(s):') !!} <br/>
         <div class = "container" style = "margin-left: 50px">
             @foreach($available_books as $book)
-            <!-- want to change here: only show list of books that are available to subscribe and only check martk ones that are currently subscribed see controller-->
-        <!--         @if($user->isCurrentSubscriber($book->id))
-                  {!! Form::checkbox($book->id, null,  true) !!}
-                @elseif((!$user->hasEverSubscribed($book->id))&&(!$user->otherSubscriberExists($book->id)))
-                  {!! Form::checkbox($book->id, null,false) !!}
-                @else
-                  {!! Form::checkbox($book->id, null, false, ['disabled' => 'disabled']) !!} 
-                @endif -->
 
                 {!! Form::checkbox('subscriptions[]', $book->id, in_array($book->id, $current_subscribed_book_ids) ? true : false) !!}
 
