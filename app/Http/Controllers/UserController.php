@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\User;
 use App\Book;
+use App\Subscription;
 
 class UserController extends Controller
 {
@@ -85,7 +86,22 @@ class UserController extends Controller
          //returns array of book_ids that are checked off
         $subscriptions =  $request->input('subscriptions');
 
-         //todo update book subscription status
+        //subcribes or unsubscribes user from books based on checkbox values
+        $books = Book::whereNull('subscription_status')->orWhere('subscription_status', $id)->get();
+        foreach($books as $book){
+          if(empty($book->subscription_status) &&  in_array($book->id, $subscriptions)){
+            $book->update(['subscription_status' => $id]);
+            if(!(Subscription::where([['book_id','=',$book->id],['user_id','=',$id]])->exists())){
+              $subscription = new Subscription();
+              $subscription->book_id = $book->id;
+              $subscription->user_id = $id;
+              $subscription->save();
+            }
+          }
+          elseif((!empty($book->subscription_status)) && (!in_array($book->id, $subscriptions))){
+              $book->update(['subscription_status' => null]);
+          }
+        }
 
         return redirect('users');
     }

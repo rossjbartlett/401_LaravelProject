@@ -25,6 +25,5 @@ Route::post('books/{book}/unsubscribe', 'BookController@unsubscribe');
 
 Route::resource('books', 'BookController');
 Route::resource('authors', 'AuthorController');
-Route::resource('subscriptions', 'SubscriptionController');
 Route::resource('users', 'UserController');
 Route::resource('comments', 'CommentController');

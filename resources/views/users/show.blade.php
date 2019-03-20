@@ -20,9 +20,13 @@
     	<h4> Birthday: {{$user->birthday}} </h4>
     	<h4> Educaiton Field: {{$user->education_field}} </h4>
 
-        <h4> Subscription(s): <h4>
+      <!--  Show the users subscriptions -->
+        @if(sizeof($current_subscribed_books)>1)
+          <h4> Subscriptions: <h4>
+        @else
+          <h4> Subscription: <h4>
+        @endif
             <div style="margin-left: 50px; font-size: 20px">
-                            <!-- want to change here: only show list of books currently subscribed see controller-->
         @foreach($current_subscribed_books as $book)
             @if($user->isCurrentSubscriber($book->id))
                 {{$book->name}}

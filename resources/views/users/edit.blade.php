@@ -24,7 +24,12 @@
 	</div>
 
     <div class="form-group form-checkbox">
-        {!! Form::label('subscriptions[]', 'Subscription(s):') !!} <br/>
+        @if(sizeof($available_books)>1)
+          {!! Form::label('subscriptions[]', 'Subscriptions:') !!}
+        @else
+          {!! Form::label('subscriptions[]', 'Subscription:') !!}
+        @endif
+         <br/>
         <div class = "container" style = "margin-left: 50px">
             @foreach($available_books as $book)
 
@@ -35,8 +40,6 @@
             @endforeach
         </div>
     </div>
-
-    <!-- probably want a way to unsubscirbe or subsribe users to some book in here -->
 
 	<div class="form-group">
     	{!! Form::submit('Update User', ['class'=>'btn btn-primary form-control']) !!}
